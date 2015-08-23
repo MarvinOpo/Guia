@@ -18,18 +18,22 @@
             android:layout_marginTop="50dp"
             android:id="@+id/imageView" />
 
-        <Button
+        <TextView
+            android:id="@+id/txtInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/authButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Get Started"
-            android:id="@+id/btnStart"
-            android:textColor="#fff"
-            android:background="@drawable/rounded_button"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
             android:elevation="4dp"
             android:layout_alignParentBottom="true"
+            android:layout_marginBottom="77dp"
             android:layout_alignLeft="@+id/imageView"
             android:layout_alignStart="@+id/imageView"
-            android:layout_marginBottom="77dp"
             android:layout_alignRight="@+id/imageView"
             android:layout_alignEnd="@+id/imageView" />
 
