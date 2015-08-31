@@ -1,5 +1,6 @@
 package com.example.jadjaluddin.guia;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -9,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -16,9 +18,11 @@ import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Arrays;
@@ -27,7 +31,10 @@ import java.util.Arrays;
 public class MainActivity extends AppCompatActivity {
 
     CallbackManager callbackManager;
-    LoginButton loginButton;
+    static LoginButton loginButton;
+    static boolean end = false;
+    static LoginManager manager;
+    String image, name, bday, gender, age;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,20 +48,7 @@ public class MainActivity extends AppCompatActivity {
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                GraphRequest request = GraphRequest.newMeRequest(
-                        loginResult.getAccessToken(),
-                        new GraphRequest.GraphJSONObjectCallback() {
-                            @Override
-                            public void onCompleted(
-                                    JSONObject object,
-                                    GraphResponse response) {
-                                Toast.makeText(MainActivity.this,"Object: " + object,Toast.LENGTH_LONG).show();
-                            }
-                        });
-                Bundle parameters = new Bundle();
-                parameters.putString("fields", "picture,name,birthday,gender,age_range");
-                request.setParameters(parameters);
-                request.executeAsync();
+
             }
 
             @Override
@@ -67,6 +61,49 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Login attempt failed.", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void requestData(AccessToken token){
+        final ProgressDialog pd = ProgressDialog.show(this, "Loading", "Please wait...", true, false);
+        GraphRequest request = GraphRequest.newMeRequest(token,
+            new GraphRequest.GraphJSONObjectCallback() {
+                @Override
+                public void onCompleted(
+                        JSONObject object,
+                        GraphResponse response) {
+
+                    manager = LoginManager.getInstance();
+
+                    try {
+                        JSONObject pic = object.getJSONObject("picture");
+                        JSONObject data = pic.getJSONObject("data");
+
+                        image = data.getString("url");
+                        name = object.getString("name");
+                        bday = object.getString("birthday");
+                        gender = object.getString("gender");
+
+                        JSONObject age_range = object.getJSONObject("age_range");
+
+                        age = age_range.getString("max");
+
+                        Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+                        intent.putExtra("name", name);
+                        intent.putExtra("bday", bday);
+                        intent.putExtra("gender", gender);
+                        intent.putExtra("age", age);
+                        intent.putExtra("image", image);
+                        MainActivity.this.startActivity(intent);
+                        pd.dismiss();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "picture,name,birthday,gender,age_range");
+        request.setParameters(parameters);
+        request.executeAsync();
     }
 
     @Override
@@ -100,16 +137,21 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        if (end) {
+            end = false;
+            this.finish();
+        }
+        else if(AccessToken.getCurrentAccessToken()!=null){
+            requestData(AccessToken.getCurrentAccessToken());
+        }
+        else{}
 
-        // Logs 'install' and 'app activate' App Events.
         AppEventsLogger.activateApp(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-
-        // Logs 'app deactivate' App Event.
         AppEventsLogger.deactivateApp(this);
     }
 }

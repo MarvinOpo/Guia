@@ -137,21 +137,4 @@
             </LinearLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:id="@+id/filter_done"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Done"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/rounded_button"
-            android:elevation="4dp"
-            android:textColor="#fff"/>
-
-    </RelativeLayout>
 </LinearLayout>

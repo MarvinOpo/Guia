@@ -17,15 +17,13 @@ import android.widget.TextView;
  * Created by jadjaluddin on 8/14/2015.
  */
 public class GuideProfileFragment extends Fragment {
-    String name = "Edilberto Parrotina";
-    String email = "Kenshii_dhaot@gmail";
-    String age = "28 years old", location = "Cebu City", specialty = "Trecking", number = "092626010";
-    int profile = R.drawable.profile;
+    String specialty = "Trecking";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        LoggedInGuide.toolbar.setTitle("Profile");
     }
 
     @Override
@@ -49,17 +47,24 @@ public class GuideProfileFragment extends Fragment {
         RatingBar rb = (RatingBar) view.findViewById(R.id.rating);
 
 
-        profImage.setImageResource(profile);
-        profName.setText(name);
-        profEmail.setText(email);
-        profAge.setText(age);
-        profLocation.setText(location);
+        new ImageLoadTask(LoggedInGuide.image, profImage).execute();
+        profName.setText(LoggedInGuide.name);
+        profEmail.setText(LoggedInGuide.email);
+        profAge.setText(LoggedInGuide.age+" years old");
+        profLocation.setText(LoggedInGuide.location);
         profSpecialty.setText(specialty);
-        profNumber.setText(number);
+        profNumber.setText(LoggedInGuide.contact);
         rb.setMax(5);
         rb.setNumStars(5);
         rb.setRating(4);
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        LoggedInGuide.toolbar.setTitle("Profile");
+        LoggedInGuide.doubleBackToExitPressedOnce = false;
     }
 }

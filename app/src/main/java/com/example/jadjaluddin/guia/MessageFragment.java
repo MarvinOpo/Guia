@@ -21,6 +21,7 @@ public class MessageFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        LoggedInGuide.toolbar.setTitle("Messages");
         String message = "Hooyyy asa naman tawn ka ui, pagdali kay ikaw nalay gihuwat";
         String message_part;
         if(message.length()>25) message_part = message.substring(0, 24) + "...";

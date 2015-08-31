@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 /**
  * Created by jadjaluddin on 8/12/2015.
@@ -24,6 +25,12 @@ public class RegisterFragment extends Fragment {
         mTraveler = (ImageView) view.findViewById(R.id.traveler_logo);
         mGuide = (ImageView) view.findViewById(R.id.guide_logo);
 
+        mTraveler.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity().getApplicationContext(),"On Progress",Toast.LENGTH_SHORT).show();
+            }
+        });
         mGuide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

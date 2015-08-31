@@ -25,7 +25,7 @@ public class HomeFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-
+        LoggedInGuide.toolbar.setTitle("Popular Destination");
         mList.clear();
         mList.add(new PopularDestinations(R.drawable.image1, "SANOVA BEACH", "A place where jerks used to hang out"));
         mList.add(new PopularDestinations(R.drawable.image2, "YUARA POOL", "A paradise for all stupid person"));
@@ -52,5 +52,12 @@ public class HomeFragment extends Fragment {
         rv.setAdapter(adapter);
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        LoggedInGuide.toolbar.setTitle("Popular Destination");
+        LoggedInGuide.doubleBackToExitPressedOnce = false;
     }
 }

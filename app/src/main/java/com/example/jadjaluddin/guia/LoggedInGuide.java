@@ -1,10 +1,15 @@
 package com.example.jadjaluddin.guia;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -15,13 +20,17 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.net.URL;
 
 /**
  * Created by Stephanie Lyn on 8/13/2015.
  */
 public class LoggedInGuide extends AppCompatActivity {
 
-    Toolbar toolbar;
+    static boolean doubleBackToExitPressedOnce = false, addedFrag = false;
+    static Toolbar toolbar;
     DrawerLayout guideDrawer;
     ListView guide_drawerList;
     ActionBarDrawerToggle toggle;
@@ -31,7 +40,7 @@ public class LoggedInGuide extends AppCompatActivity {
                 R.drawable.messages,
                 R.drawable.settings,
                 R.drawable.logout};
-
+    static String name, bday, gender, age, image, location, contact, email;
     FragmentTransaction ft;
     HomeFragment hf = new HomeFragment();
     TripFragment tf = new TripFragment();
@@ -41,14 +50,23 @@ public class LoggedInGuide extends AppCompatActivity {
     GuideProfileFragment gpf = new GuideProfileFragment();
     GuideCalendarFragment gcf = new GuideCalendarFragment();
 
-    String name = "Edilberto Parrotina Jr.";
-    String email = "Kenshii_dhaot@gmail.com";
-    int profile = R.drawable.profile;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drawer_guide);
+
+        try{
+            Bundle b = this.getIntent().getExtras();
+            name = b.getString("name");
+            bday = b.getString("bday");
+            gender = b.getString("gender");
+            age = b.getString("age");
+            image = b.getString("image");
+            location = b.getString("location");
+            contact = b.getString("contact");
+            email = b.getString("email");
+        }
+        catch(Exception e){}
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         guideDrawer = (DrawerLayout) findViewById(R.id.guide_drawer);
@@ -82,34 +100,31 @@ public class LoggedInGuide extends AppCompatActivity {
         guide_drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                addedFrag = false;
+                doubleBackToExitPressedOnce = false;
                 switch (position) {
                     case 1:
-                        toolbar.setTitle("Guia");
                         ft = getSupportFragmentManager().beginTransaction();
                         ft.replace(R.id.guide_fragment_container, hf).commit();
                         guideDrawer.closeDrawers();
                         break;
                     case 2:
-                        toolbar.setTitle("Scheduled Tour");
                         ft = getSupportFragmentManager().beginTransaction();
                         ft.replace(R.id.guide_fragment_container, tf).commit();
                         guideDrawer.closeDrawers();
                         break;
                     case 3:
-                        toolbar.setTitle("Messages");
                         ft = getSupportFragmentManager().beginTransaction();
                         ft.replace(R.id.guide_fragment_container, mf).commit();
                         guideDrawer.closeDrawers();
                         break;
                     case 4:
-                        toolbar.setTitle("Settings");
                         ft = getSupportFragmentManager().beginTransaction();
                         ft.replace(R.id.guide_fragment_container, sf).commit();
                         guideDrawer.closeDrawers();
                         break;
                     case 5:
-                        Intent intent = new Intent(LoggedInGuide.this, LoginActivity.class);
-                        LoggedInGuide.this.startActivity(intent);
+                        MainActivity.manager.logOut();
                         LoggedInGuide.this.finish();
                 }
             }
@@ -127,14 +142,13 @@ public class LoggedInGuide extends AppCompatActivity {
         TextView profName = (TextView) view.findViewById(R.id.profile_name);
         TextView profEmail = (TextView) view.findViewById(R.id.profile_email);
 
-        profImage.setImageResource(profile);
+        new ImageLoadTask(image, profImage).execute();
         profName.setText(name);
         profEmail.setText(email);
 
         profImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                toolbar.setTitle("Profile");
                 ft = getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.guide_fragment_container, gpf).commit();
                 guideDrawer.closeDrawers();
@@ -153,17 +167,24 @@ public class LoggedInGuide extends AppCompatActivity {
             return true;
         }
 
+        doubleBackToExitPressedOnce = false;
+
         switch(id){
             case R.id.filter:
                 toolbar.setTitle("Filter");
+                addedFrag = true;
                 ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.guide_fragment_container, ff).commit();
+                ft.replace(R.id.guide_fragment_container, ff).addToBackStack(null).commit();
                 break;
             case R.id.calendar:
                 toolbar.setTitle("Schedules");
+                addedFrag = true;
                 ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.guide_fragment_container, gcf).commit();
+                ft.replace(R.id.guide_fragment_container, gcf).addToBackStack(null).commit();
                 break;
+            case R.id.done:
+                addedFrag = false;
+                this.getSupportFragmentManager().popBackStackImmediate();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -172,5 +193,23 @@ public class LoggedInGuide extends AppCompatActivity {
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         toggle.syncState();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            MainActivity.end = true;
+            return;
+        }
+        if (!addedFrag) {
+            this.doubleBackToExitPressedOnce = true;
+            Toast.makeText(this, "Press again to exit", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            addedFrag = false;
+            super.onBackPressed();
+            return;
+        }
     }
 }

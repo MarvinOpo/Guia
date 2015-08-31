@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="Location and Specialty"
+            android:text="Almost done"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="#fff"/>
     </RelativeLayout>
@@ -27,49 +27,46 @@
         android:layout_height="match_parent"
         android:padding="25dp">
 
-        <EditText
-            android:id="@+id/txtLocation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:hint="Location"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:background="@drawable/rounded_edittext" />
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Give us some specialty for your profile."
+            android:gravity="center_horizontal|fill_horizontal"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="We need to verify your registration by setting  up an email address. \n\nYou are also required to give scanned copy of your barangay clearance so you can start guiding tourists.\n(This can be set later)" />
+
+        <EditText
+            android:id="@+id/txtEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:hint="Email Address"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:background="@drawable/rounded_edittext"
             android:layout_marginTop="20dp"/>
 
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp">
 
-            <Spinner
-                android:id="@+id/spnr_month"
+            <EditText
+                android:id="@+id/txtClearance"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/rounded_edittext"/>
-
-            <Spinner
-                android:id="@+id/spnr_day"
+                android:layout_weight="3"
+                android:padding="10dp"
+                android:editable="false"
+                android:hint="Browse Photo..."
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:background="@drawable/rounded_edittext"
+                android:layout_marginRight="2dp"/>
+            <ImageView
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:src="@drawable/attach_photo"
                 android:background="@drawable/rounded_edittext"/>
-
-            <Spinner
-                android:id="@+id/spnr_year"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/rounded_edittext"/>
-
         </LinearLayout>
 
         <RelativeLayout
@@ -94,14 +91,15 @@
                     android:textColor="#fff"/>
 
                 <Button
-                    android:id="@+id/guide2_next"
+                    android:id="@+id/guide2_done"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Next"
+                    android:text="Done"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
                     android:background="@drawable/rounded_button"
                     android:elevation="4dp"
-                    android:layout_marginLeft="5dp"
                     android:textColor="#fff"/>
 
             </LinearLayout>

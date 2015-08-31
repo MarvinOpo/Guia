@@ -16,6 +16,7 @@ public class TripFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        LoggedInGuide.toolbar.setTitle("Scheduled Tour");
         mTabHost = new FragmentTabHost(getActivity());
         mTabHost.setup(getActivity(), getChildFragmentManager(), R.id.tabframe);
 

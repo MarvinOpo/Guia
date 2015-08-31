@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="Tell us about yourself"
+            android:text="Additional Information"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="#fff"/>
     </RelativeLayout>
@@ -28,87 +28,81 @@
         android:padding="25dp">
 
         <EditText
-            android:id="@+id/txtFirstName"
+            android:id="@+id/txtLocation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:hint="First Name"
+            android:hint="Location"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:background="@drawable/rounded_edittext" />
 
         <EditText
-            android:id="@+id/txtLastName"
+            android:id="@+id/txtContact"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:layout_marginTop="20dp"
-            android:hint="Last Name"
+            android:hint="Contact number"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:background="@drawable/rounded_edittext"/>
+            android:background="@drawable/rounded_edittext"
+            android:layout_marginTop="10dp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Birthdate:"
+            android:text="Check atleast 1 specialty for your profile."
             android:layout_marginTop="20dp"/>
 
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp">
-
-            <Spinner
-                android:id="@+id/spnr_month"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/rounded_edittext"
-                android:layout_marginRight="2dp"/>
-
-            <Spinner
-                android:id="@+id/spnr_day"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/rounded_edittext"
-                android:layout_marginLeft="1dp"
-                android:layout_marginRight="1dp"/>
-
-            <Spinner
-                android:id="@+id/spnr_year"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/rounded_edittext"
-                android:layout_marginLeft="2dp"/>
-
-        </LinearLayout>
-
-        <RadioGroup
-            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp">
 
-            <RadioButton
-                android:id="@+id/radio_male"
-                android:checked="true"
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Male"
-                android:textAppearance="?android:attr/textAppearanceLarge"/>
+                android:layout_weight="1">
 
-            <RadioButton
-                android:id="@+id/radio_female"
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Food"/>
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Outdoor"/>
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Culture"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Female"
-                android:textAppearance="?android:attr/textAppearanceLarge"/>
-        </RadioGroup>
+                android:layout_weight="1">
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Music"/>
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Art"/>
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nightlife"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
