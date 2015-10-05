@@ -1,24 +1,24 @@
 package com.example.jadjaluddin.guia;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
 
 /**
  * Created by jadjaluddin on 8/12/2015.
  */
 public class RegisterActivity extends AppCompatActivity {
-    static String name, bday, gender, age, image;
+    public static String name;
+    public static String bday;
+    public static String gender;
+    public static String age;
+    public static String image;
     FragmentTransaction ft;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.register_frag_container);
+        setContentView(R.layout.fragment_container);
 
         try{
             Bundle b = this.getIntent().getExtras();
@@ -32,7 +32,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         RegisterFragment rf = new RegisterFragment();
         ft = getSupportFragmentManager().beginTransaction();
-        ft.add(R.id.register_frag_container, rf).commit();
+        ft.add(R.id.new_frag_container, rf).commit();
     }
 
     @Override

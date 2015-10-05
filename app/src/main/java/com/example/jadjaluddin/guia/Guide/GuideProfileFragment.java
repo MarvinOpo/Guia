@@ -1,6 +1,5 @@
-package com.example.jadjaluddin.guia;
+package com.example.jadjaluddin.guia.Guide;
 
-import android.media.Rating;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,6 +12,9 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.example.jadjaluddin.guia.Helper.ImageLoadTask;
+import com.example.jadjaluddin.guia.R;
+
 /**
  * Created by jadjaluddin on 8/14/2015.
  */
@@ -23,7 +25,7 @@ public class GuideProfileFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        LoggedInGuide.toolbar.setTitle("Profile");
+        LoggedInGuide.mToolbar.setTitle("Profile");
     }
 
     @Override
@@ -64,7 +66,7 @@ public class GuideProfileFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        LoggedInGuide.toolbar.setTitle("Profile");
+        LoggedInGuide.mToolbar.setTitle("Profile");
         LoggedInGuide.doubleBackToExitPressedOnce = false;
     }
 }

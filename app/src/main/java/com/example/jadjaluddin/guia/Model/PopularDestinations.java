@@ -1,11 +1,12 @@
-package com.example.jadjaluddin.guia;
+package com.example.jadjaluddin.guia.Model;
 
 /**
  * Created by jadjaluddin on 8/5/2015.
  */
 public class PopularDestinations {
-    int icon;
-    String location, description;
+    public int icon;
+    public String location;
+    public String description;
 
     public PopularDestinations(int icon, String location, String description) {
         this.icon = icon;

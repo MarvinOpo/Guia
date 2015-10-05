@@ -1,4 +1,4 @@
-package com.example.jadjaluddin.guia;
+package com.example.jadjaluddin.guia.Guide;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.jadjaluddin.guia.R;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateChangedListener;

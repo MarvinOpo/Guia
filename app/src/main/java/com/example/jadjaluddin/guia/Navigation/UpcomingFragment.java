@@ -1,4 +1,4 @@
-package com.example.jadjaluddin.guia;
+package com.example.jadjaluddin.guia.Navigation;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,16 +7,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-/**
- * Created by Stephanie on 8/5/2015.
- */
-public class SettingFragment extends Fragment {
+import com.example.jadjaluddin.guia.R;
 
+/**
+ * Created by jadjaluddin on 8/5/2015.
+ */
+public class UpcomingFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        LoggedInGuide.toolbar.setTitle("Settings");
-        View view = inflater.inflate(R.layout.fragment_setting, container, false);
+        View view = inflater.inflate(R.layout.fragment_tab, container, false);
         return view;
     }
 }

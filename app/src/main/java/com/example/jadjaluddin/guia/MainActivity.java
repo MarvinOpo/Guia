@@ -3,8 +3,6 @@ package com.example.jadjaluddin.guia;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,9 +29,9 @@ import java.util.Arrays;
 public class MainActivity extends AppCompatActivity {
 
     CallbackManager callbackManager;
-    static LoginButton loginButton;
-    static boolean end = false;
-    static LoginManager manager;
+    public static LoginButton loginButton;
+    public static boolean end = false;
+    public static LoginManager manager;
     String image, name, bday, gender, age;
 
     @Override
@@ -66,40 +64,45 @@ public class MainActivity extends AppCompatActivity {
     public void requestData(AccessToken token){
         final ProgressDialog pd = ProgressDialog.show(this, "Loading", "Please wait...", true, false);
         GraphRequest request = GraphRequest.newMeRequest(token,
-            new GraphRequest.GraphJSONObjectCallback() {
-                @Override
-                public void onCompleted(
-                        JSONObject object,
-                        GraphResponse response) {
+                new GraphRequest.GraphJSONObjectCallback() {
+                    @Override
+                    public void onCompleted(
+                            JSONObject object,
+                            GraphResponse response) {
 
-                    manager = LoginManager.getInstance();
+                        manager = LoginManager.getInstance();
+                        //Toast.makeText(MainActivity.this, "JSON: "+object, Toast.LENGTH_LONG).show();
+                        try {
+                            JSONObject pic = object.getJSONObject("picture");
+                            JSONObject data = pic.getJSONObject("data");
 
-                    try {
-                        JSONObject pic = object.getJSONObject("picture");
-                        JSONObject data = pic.getJSONObject("data");
+                            image = data.getString("url");
+                            name = object.getString("name");
+                            bday = object.getString("birthday");
+                            gender = object.getString("gender");
 
-                        image = data.getString("url");
-                        name = object.getString("name");
-                        bday = object.getString("birthday");
-                        gender = object.getString("gender");
+                            JSONObject age_range = object.getJSONObject("age_range");
 
-                        JSONObject age_range = object.getJSONObject("age_range");
+                            try {
+                                age = age_range.getString("max");
+                            }
+                            catch (Exception e){
+                                age = age_range.getString("min");
+                            }
 
-                        age = age_range.getString("max");
-
-                        Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
-                        intent.putExtra("name", name);
-                        intent.putExtra("bday", bday);
-                        intent.putExtra("gender", gender);
-                        intent.putExtra("age", age);
-                        intent.putExtra("image", image);
-                        MainActivity.this.startActivity(intent);
-                        pd.dismiss();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                            Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+                            intent.putExtra("name", name);
+                            intent.putExtra("bday", bday);
+                            intent.putExtra("gender", gender);
+                            intent.putExtra("age", age);
+                            intent.putExtra("image", image);
+                            MainActivity.this.startActivity(intent);
+                            pd.dismiss();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
-                }
-            });
+                });
         Bundle parameters = new Bundle();
         parameters.putString("fields", "picture,name,birthday,gender,age_range");
         request.setParameters(parameters);

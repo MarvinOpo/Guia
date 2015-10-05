@@ -1,4 +1,4 @@
-package com.example.jadjaluddin.guia;
+package com.example.jadjaluddin.guia.Helper;
 
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -7,6 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.jadjaluddin.guia.Model.MessageItem;
+import com.example.jadjaluddin.guia.Model.PopularDestinations;
+import com.example.jadjaluddin.guia.R;
 
 import java.util.List;
 
@@ -18,7 +22,7 @@ public class RVadapter extends RecyclerView.Adapter<RVadapter.CardViewHolder> {
     static List<PopularDestinations> pd;
     static List<MessageItem> mi;
 
-    RVadapter(List<PopularDestinations> pd, List<MessageItem> mi) {
+    public RVadapter(List<PopularDestinations> pd, List<MessageItem> mi) {
         this.pd = pd;
         this.mi = mi;
     }

@@ -1,4 +1,4 @@
-package com.example.jadjaluddin.guia;
+package com.example.jadjaluddin.guia.Guide;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.jadjaluddin.guia.R;
+import com.example.jadjaluddin.guia.RegisterActivity;
+
 /**
  * Created by jadjaluddin on 8/12/2015.
  */
@@ -22,7 +25,7 @@ public class Guide2Fragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_guide2, container, false);
+        View view = inflater.inflate(R.layout.fragment_guide_registration2, container, false);
 
         txtEmail = (EditText) view.findViewById(R.id.txtEmail);
         btnDone = (Button) view.findViewById(R.id.guide2_done);

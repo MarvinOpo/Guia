@@ -1,11 +1,13 @@
-package com.example.jadjaluddin.guia;
+package com.example.jadjaluddin.guia.Model;
 
 /**
  * Created by Stephanie on 8/6/2015.
  */
 public class MessageItem {
-    int image;
-    String name, message_part, message;
+    public int image;
+    public String name;
+    public String message_part;
+    String message;
 
     public MessageItem(int image, String name, String message_part, String message) {
         this.image = image;

@@ -1,4 +1,4 @@
-package com.example.jadjaluddin.guia;
+package com.example.jadjaluddin.guia.Navigation;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,6 +8,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.jadjaluddin.guia.R;
 
 /**
  * Created by jadjaluddin on 8/14/2015.

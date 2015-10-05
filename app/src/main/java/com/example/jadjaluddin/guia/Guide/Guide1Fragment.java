@@ -1,4 +1,4 @@
-package com.example.jadjaluddin.guia;
+package com.example.jadjaluddin.guia.Guide;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,14 +7,10 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.Spinner;
 
-import java.util.ArrayList;
-import java.util.Date;
+import com.example.jadjaluddin.guia.R;
 
 /**
  * Created by jadjaluddin on 8/12/2015.
@@ -27,7 +23,7 @@ public class Guide1Fragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_guide1, container, false);
+        View view = inflater.inflate(R.layout.fragment_guide_registration1, container, false);
 
         txtLocation = (EditText) view.findViewById(R.id.txtLocation);
         txtContact = (EditText) view.findViewById(R.id.txtContact);
@@ -44,7 +40,7 @@ public class Guide1Fragment extends Fragment {
                 else {
                     Guide2Fragment g2f = new Guide2Fragment();
                     ft = getActivity().getSupportFragmentManager().beginTransaction();
-                    ft.replace(R.id.register_frag_container, g2f).addToBackStack(null).commit();
+                    ft.replace(R.id.new_frag_container, g2f).addToBackStack(null).commit();
                 }
             }
         });

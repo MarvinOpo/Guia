@@ -1,4 +1,4 @@
-package com.example.jadjaluddin.guia;
+package com.example.jadjaluddin.guia.Helper;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

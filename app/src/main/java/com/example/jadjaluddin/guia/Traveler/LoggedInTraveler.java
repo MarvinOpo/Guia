@@ -1,19 +1,12 @@
-package com.example.jadjaluddin.guia;
+package com.example.jadjaluddin.guia.Traveler;
 
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -22,25 +15,37 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.net.URL;
+import com.example.jadjaluddin.guia.Guide.GuideCalendarFragment;
+import com.example.jadjaluddin.guia.Guide.GuideProfileFragment;
+import com.example.jadjaluddin.guia.Helper.DrawerAdapter;
+import com.example.jadjaluddin.guia.Helper.ImageLoadTask;
+import com.example.jadjaluddin.guia.MainActivity;
+import com.example.jadjaluddin.guia.Model.DrawerItem;
+import com.example.jadjaluddin.guia.Navigation.FilterFragment;
+import com.example.jadjaluddin.guia.Navigation.HomeFragment;
+import com.example.jadjaluddin.guia.Navigation.MessageFragment;
+import com.example.jadjaluddin.guia.Navigation.SettingFragment;
+import com.example.jadjaluddin.guia.Navigation.TripFragment;
+import com.example.jadjaluddin.guia.R;
 
 /**
  * Created by Stephanie Lyn on 8/13/2015.
  */
-public class LoggedInGuide extends AppCompatActivity {
+public class LoggedInTraveler extends AppCompatActivity {
 
-    static boolean doubleBackToExitPressedOnce = false, addedFrag = false;
-    static Toolbar toolbar;
-    DrawerLayout guideDrawer;
-    ListView guide_drawerList;
-    ActionBarDrawerToggle toggle;
+    public static boolean doubleBackToExitPressedOnce = false;
+    static boolean addedFrag = false;
+    public static Toolbar mToolbar;
+    DrawerLayout mDrawer;
+    ListView mDrawerList;
+    ActionBarDrawerToggle mToggle;
     String[] titles = {"Home", "Scheduled Tours", "Messages", "Settings", "Logout"};
     int[] icons = {R.drawable.home,
                 R.drawable.sched_tours,
                 R.drawable.messages,
                 R.drawable.settings,
                 R.drawable.logout};
-    static String name, bday, gender, age, image, location, contact, email;
+    static String name, bday, gender, age, image;
     FragmentTransaction ft;
     HomeFragment hf = new HomeFragment();
     TripFragment tf = new TripFragment();
@@ -62,30 +67,27 @@ public class LoggedInGuide extends AppCompatActivity {
             gender = b.getString("gender");
             age = b.getString("age");
             image = b.getString("image");
-            location = b.getString("location");
-            contact = b.getString("contact");
-            email = b.getString("email");
         }
         catch(Exception e){}
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        guideDrawer = (DrawerLayout) findViewById(R.id.guide_drawer);
-        guide_drawerList = (ListView) findViewById(R.id.guide_list_drawer);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mDrawer = (DrawerLayout) findViewById(R.id.guide_drawer);
+        mDrawerList = (ListView) findViewById(R.id.guide_list_drawer);
 
         ft = getSupportFragmentManager().beginTransaction();
         ft.add(R.id.guide_fragment_container, hf).commit();
 
-        guide_drawerList.setDivider(null);
-        guide_drawerList.addHeaderView(getView());
+        mDrawerList.setDivider(null);
+        mDrawerList.addHeaderView(getView());
         DrawerItem[] items = new DrawerItem[5];
         for(int i = 0; i<items.length; i++){
             items[i] = new DrawerItem(icons[i], titles[i]);
         }
 
         DrawerAdapter adapter = new DrawerAdapter(this, R.layout.drawer_item, items);
-        guide_drawerList.setAdapter(adapter);
+        mDrawerList.setAdapter(adapter);
 
-        toggle = new ActionBarDrawerToggle(this, guideDrawer, toolbar, R.string.drawer_open, R.string.drawer_close){
+        mToggle = new ActionBarDrawerToggle(this, mDrawer, mToolbar, R.string.drawer_open, R.string.drawer_close){
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
@@ -97,7 +99,7 @@ public class LoggedInGuide extends AppCompatActivity {
             }
         };
 
-        guide_drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 addedFrag = false;
@@ -106,31 +108,31 @@ public class LoggedInGuide extends AppCompatActivity {
                     case 1:
                         ft = getSupportFragmentManager().beginTransaction();
                         ft.replace(R.id.guide_fragment_container, hf).commit();
-                        guideDrawer.closeDrawers();
+                        mDrawer.closeDrawers();
                         break;
                     case 2:
                         ft = getSupportFragmentManager().beginTransaction();
                         ft.replace(R.id.guide_fragment_container, tf).commit();
-                        guideDrawer.closeDrawers();
+                        mDrawer.closeDrawers();
                         break;
                     case 3:
                         ft = getSupportFragmentManager().beginTransaction();
                         ft.replace(R.id.guide_fragment_container, mf).commit();
-                        guideDrawer.closeDrawers();
+                        mDrawer.closeDrawers();
                         break;
                     case 4:
                         ft = getSupportFragmentManager().beginTransaction();
                         ft.replace(R.id.guide_fragment_container, sf).commit();
-                        guideDrawer.closeDrawers();
+                        mDrawer.closeDrawers();
                         break;
                     case 5:
                         MainActivity.manager.logOut();
-                        LoggedInGuide.this.finish();
+                        LoggedInTraveler.this.finish();
                 }
             }
         });
 
-        setSupportActionBar(toolbar);
+        setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
@@ -140,18 +142,17 @@ public class LoggedInGuide extends AppCompatActivity {
 
         ImageView profImage = (ImageView) view.findViewById(R.id.profile_image);
         TextView profName = (TextView) view.findViewById(R.id.profile_name);
-        TextView profEmail = (TextView) view.findViewById(R.id.profile_email);
+        TextView profDetail = (TextView) view.findViewById(R.id.profile_email);
 
         new ImageLoadTask(image, profImage).execute();
         profName.setText(name);
-        profEmail.setText(email);
+        profDetail.setText(gender.substring(0,1).toUpperCase()+gender.substring(1)+", "+age);
 
         profImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.guide_fragment_container, gpf).commit();
-                guideDrawer.closeDrawers();
+                Toast.makeText(LoggedInTraveler.this, "Traveler Profile is still in progress!", Toast.LENGTH_SHORT).show();
+                mDrawer.closeDrawers();
             }
         });
 
@@ -163,7 +164,7 @@ public class LoggedInGuide extends AppCompatActivity {
 
         int id = item.getItemId();
 
-        if(toggle.onOptionsItemSelected(item)){
+        if(mToggle.onOptionsItemSelected(item)){
             return true;
         }
 
@@ -171,13 +172,13 @@ public class LoggedInGuide extends AppCompatActivity {
 
         switch(id){
             case R.id.filter:
-                toolbar.setTitle("Filter");
+                mToolbar.setTitle("Filter");
                 addedFrag = true;
                 ft = getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.guide_fragment_container, ff).addToBackStack(null).commit();
                 break;
             case R.id.calendar:
-                toolbar.setTitle("Schedules");
+                mToolbar.setTitle("Schedules");
                 addedFrag = true;
                 ft = getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.guide_fragment_container, gcf).addToBackStack(null).commit();
@@ -192,7 +193,7 @@ public class LoggedInGuide extends AppCompatActivity {
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        toggle.syncState();
+        mToggle.syncState();
     }
 
     @Override
