@@ -40,16 +40,19 @@
                 android:layout_marginBottom="10dp">
 
                 <RadioButton
+                    android:id="@+id/rb_both"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Both"/>
                 <RadioButton
+                    android:id="@+id/rb_male"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Male"/>
                 <RadioButton
+                    android:id="@+id/rb_female"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -115,24 +118,34 @@
                 android:paddingBottom="10dp">
 
                 <CheckBox
+                    android:id="@+id/cb_food"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:tag="1"
                     android:text="Food"/>
                 <CheckBox
+                    android:id="@+id/cb_outdoor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:tag="2"
                     android:text="Outdoor"/>
                 <CheckBox
+                    android:id="@+id/cb_culture"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:tag="3"
                     android:text="Culture"/>
                 <CheckBox
+                    android:id="@+id/cb_music"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:tag="4"
                     android:text="Music"/>
                 <CheckBox
+                    android:id="@+id/cb_night_life"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:tag="5"
                     android:text="Nightlife"/>
             </LinearLayout>
         </LinearLayout>

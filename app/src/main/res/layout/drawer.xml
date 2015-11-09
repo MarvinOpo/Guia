@@ -13,7 +13,7 @@
         <include layout="@layout/toolbar"/>
 
         <FrameLayout
-            android:id="@+id/guide_fragment_container"
+            android:id="@+id/drawer_fragment_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 

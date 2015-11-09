@@ -56,7 +56,7 @@ public class LoggedInGuide extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.drawer_guide);
+        setContentView(R.layout.drawer);
 
         try{
             Bundle b = this.getIntent().getExtras();
@@ -76,7 +76,7 @@ public class LoggedInGuide extends AppCompatActivity {
         mDrawerList = (ListView) findViewById(R.id.guide_list_drawer);
 
         ft = getSupportFragmentManager().beginTransaction();
-        ft.add(R.id.guide_fragment_container, hf).commit();
+        ft.add(R.id.drawer_fragment_container, hf).commit();
 
         mDrawerList.setDivider(null);
         mDrawerList.addHeaderView(getView());
@@ -108,22 +108,22 @@ public class LoggedInGuide extends AppCompatActivity {
                 switch (position) {
                     case 1:
                         ft = getSupportFragmentManager().beginTransaction();
-                        ft.replace(R.id.guide_fragment_container, hf).commit();
+                        ft.replace(R.id.drawer_fragment_container, hf).commit();
                         mDrawer.closeDrawers();
                         break;
                     case 2:
                         ft = getSupportFragmentManager().beginTransaction();
-                        ft.replace(R.id.guide_fragment_container, tf).commit();
+                        ft.replace(R.id.drawer_fragment_container, tf).commit();
                         mDrawer.closeDrawers();
                         break;
                     case 3:
                         ft = getSupportFragmentManager().beginTransaction();
-                        ft.replace(R.id.guide_fragment_container, mf).commit();
+                        ft.replace(R.id.drawer_fragment_container, mf).commit();
                         mDrawer.closeDrawers();
                         break;
                     case 4:
                         ft = getSupportFragmentManager().beginTransaction();
-                        ft.replace(R.id.guide_fragment_container, sf).commit();
+                        ft.replace(R.id.drawer_fragment_container, sf).commit();
                         mDrawer.closeDrawers();
                         break;
                     case 5:
@@ -153,7 +153,7 @@ public class LoggedInGuide extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.guide_fragment_container, gpf).commit();
+                ft.replace(R.id.drawer_fragment_container, gpf).commit();
                 mDrawer.closeDrawers();
             }
         });
@@ -177,13 +177,13 @@ public class LoggedInGuide extends AppCompatActivity {
                 mToolbar.setTitle("Filter");
                 addedFrag = true;
                 ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.guide_fragment_container, ff).addToBackStack(null).commit();
+                ft.replace(R.id.drawer_fragment_container, ff).addToBackStack(null).commit();
                 break;
             case R.id.calendar:
                 mToolbar.setTitle("Schedules");
                 addedFrag = true;
                 ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.guide_fragment_container, gcf).addToBackStack(null).commit();
+                ft.replace(R.id.drawer_fragment_container, gcf).addToBackStack(null).commit();
                 break;
             case R.id.done:
                 addedFrag = false;

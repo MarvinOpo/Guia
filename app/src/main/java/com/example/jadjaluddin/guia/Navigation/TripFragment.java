@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTabHost;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -18,13 +20,14 @@ public class TripFragment extends Fragment {
     private FragmentTabHost mTabHost;
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        try{
-            LoggedInGuide.mToolbar.setTitle("Scheduled Tour");
-        }catch (Exception e){
-            LoggedInTraveler.mToolbar.setTitle("Scheduled Tour");
-        }
         mTabHost = new FragmentTabHost(getActivity());
         mTabHost.setup(getActivity(), getChildFragmentManager(), R.id.tabframe);
 
@@ -33,6 +36,19 @@ public class TripFragment extends Fragment {
         mTabHost.addTab(mTabHost.newTabSpec("previous").setIndicator("Previous"),
                 PreviousFragment.class, null);
         return mTabHost;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        try{
+            LoggedInGuide.mToolbar.setTitle("Scheduled Tour");
+
+        }catch (Exception e){
+            LoggedInTraveler.mToolbar.setTitle("Scheduled Tour");
+            inflater.inflate(R.menu.add_trip, menu);
+        }
     }
 
     @Override

@@ -9,9 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.jadjaluddin.guia.Guide.Guide1Fragment;
+import com.example.jadjaluddin.guia.Helper.DBHelper;
+import com.example.jadjaluddin.guia.Model.User;
 import com.example.jadjaluddin.guia.Traveler.LoggedInTraveler;
+import com.facebook.AccessToken;
 
 /**
  * Created by jadjaluddin on 8/12/2015.
@@ -31,7 +35,10 @@ public class RegisterFragment extends Fragment {
         mTraveler.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(getActivity().getApplicationContext(),"On Progress",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity().getApplicationContext(), AccessToken.getCurrentAccessToken().getToken().substring(0, 13), Toast.LENGTH_SHORT).show();
+                DBHelper db = new DBHelper(getActivity().getApplicationContext());
+                db.updSetting(1, "isTraveler");
+
                 Intent intent = new Intent(getActivity().getApplicationContext(), LoggedInTraveler.class);
                 intent.putExtra("name", RegisterActivity.name);
                 intent.putExtra("bday", RegisterActivity.bday);

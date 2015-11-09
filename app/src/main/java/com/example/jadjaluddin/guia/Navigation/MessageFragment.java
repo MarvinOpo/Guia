@@ -53,7 +53,7 @@ public class MessageFragment extends Fragment {
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         rv.setLayoutManager(llm);
 
-        RVadapter adapter = new RVadapter(null, mList);
+        RVadapter adapter = new RVadapter(null, mList, null);
         rv.setAdapter(adapter);
         return view;
     }

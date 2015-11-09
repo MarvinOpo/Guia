@@ -11,8 +11,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.jadjaluddin.guia.Helper.DBHelper;
+import com.example.jadjaluddin.guia.Model.User;
 import com.example.jadjaluddin.guia.R;
 import com.example.jadjaluddin.guia.RegisterActivity;
+import com.facebook.AccessToken;
 
 /**
  * Created by jadjaluddin on 8/12/2015.

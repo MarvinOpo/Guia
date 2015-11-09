@@ -57,7 +57,7 @@ public class HomeFragment extends Fragment {
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         rv.setLayoutManager(llm);
 
-        RVadapter adapter = new RVadapter(mList, null);
+        RVadapter adapter = new RVadapter(mList, null, null);
         rv.setAdapter(adapter);
 
         return view;
