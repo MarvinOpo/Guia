@@ -26,7 +26,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String sql = "Create table "+FILTER+"(id integer primary key, gender varchar(6), " +
                 "minPrice integer, maxPrice integer, interest varchar(20))";
-        String sql1 = "Create table "+SETTING+"(id integer primary key, alert integer, " +
+        String sql1 = "Create table "+SETTING+"(id integer primary key, fb_id varchar(50), alert integer, " +
                 "reminder integer, isTraveler integer)";
         String sql2 = "Create table "+BOOKING+"(id integer primary key autoincrement, travelerToken varchar(20), " +
                 "guideToken varchar(20), tourDate long, status varchar(15))";
@@ -46,26 +46,27 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void defaultSetting(){
+    public void addSetting(String id){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
-        cv.put("alert", 0);
-        cv.put("reminder", 0);
-        cv.put("isTraveler", 0);
+        cv.put("fb_id", id);
+        cv.put("alert", 1);
+        cv.put("reminder", 1);
+        cv.put("isTraveler", 1);
         db.insert(SETTING, null, cv);
         db.close();
     }
 
-    public Cursor getSetting(){
+    public Cursor getSettingById(String id){
         SQLiteDatabase db = this.getReadableDatabase();
-        String sql = "Select * from "+SETTING;
+        String sql = "Select * from "+SETTING+" where fb_id ='"+id+"'";
         Cursor c = db.rawQuery(sql, null);
         return c;
     }
 
-    public void updSetting(int update, String column){
+    public void updSetting(String id, int update, String column){
         SQLiteDatabase db = this.getWritableDatabase();
-        String sql = "Update "+SETTING+" set "+column+"="+update;
+        String sql = "Update "+SETTING+" set "+column+"="+update+" where fb_id='"+id+"'";
         db.execSQL(sql);
         db.close();
     }

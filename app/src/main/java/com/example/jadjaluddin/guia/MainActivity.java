@@ -4,12 +4,17 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.jadjaluddin.guia.Guide.LoggedInGuide;
 import com.example.jadjaluddin.guia.Helper.DBHelper;
+import com.example.jadjaluddin.guia.Helper.JSONParser;
+import com.example.jadjaluddin.guia.Traveler.LoggedInTraveler;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -22,10 +27,14 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -34,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     public static LoginButton loginButton;
     public static boolean end = false;
     public static LoginManager manager;
-    String image, name, bday, gender, age;
+    String fb_id, image, name, bday, gender, age;
     DBHelper db = new DBHelper(this);
 
     @Override
@@ -44,10 +53,7 @@ public class MainActivity extends AppCompatActivity {
         callbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.activity_main);
 
-        Cursor c = db.getSetting();
-        if(!c.moveToFirst()) db.defaultSetting();
-
-        c = db.getFilter();
+        Cursor c = db.getFilter();
         if(!c.moveToFirst()) db.defaultFilter();
 
         loginButton = (LoginButton) findViewById(R.id.authButton);
@@ -79,71 +85,128 @@ public class MainActivity extends AppCompatActivity {
                             JSONObject object,
                             GraphResponse response) {
 
+                        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                        StrictMode.setThreadPolicy(policy);
+
                         manager = LoginManager.getInstance();
                         //Toast.makeText(MainActivity.this, "JSON: "+object, Toast.LENGTH_LONG).show();
                         try {
 
                             //if(user==null) {
-                                JSONObject pic = object.getJSONObject("picture");
-                                JSONObject data = pic.getJSONObject("data");
-                                //Toast.makeText(MainActivity.this, "awa ari nisud", Toast.LENGTH_LONG).show();
-                                image = data.getString("url");
-                                name = object.getString("name");
-                                bday = object.getString("birthday");
-                                gender = object.getString("gender");
+                            fb_id = object.getString("id");
+                            JSONObject pic = object.getJSONObject("picture");
+                            JSONObject data = pic.getJSONObject("data");
+                            //Toast.makeText(MainActivity.this, "awa ari nisud", Toast.LENGTH_LONG).show();
+                            image = data.getString("url");
+                            name = object.getString("name");
+                            bday = object.getString("birthday");
+                            gender = object.getString("gender");
 
-                                JSONObject age_range = object.getJSONObject("age_range");
+                            JSONObject age_range = object.getJSONObject("age_range");
 
-                                try {
-                                    age = age_range.getString("max");
-                                }
-                                catch (Exception e){
-                                    age = age_range.getString("min");
-                                }
+                            try {
+                                age = age_range.getString("max");
+                            }
+                            catch (Exception e){
+                                age = age_range.getString("min");
+                            }
 
-                                Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+                            //setting value for request
+                            List<NameValuePair> params = new ArrayList<>();
+                            params.add(new BasicNameValuePair("facebook_id", fb_id));
+                            params.add(new BasicNameValuePair("name", name));
+                            params.add(new BasicNameValuePair("birthday", bday));
+                            params.add(new BasicNameValuePair("age", age));
+                            params.add(new BasicNameValuePair("gender", gender));
+                            params.add(new BasicNameValuePair("profImage", image));
+
+                            JSONParser parser = new JSONParser();
+                            JSONObject obj = parser.makeHttpRequest("http://10.0.0.13:8080/api/v1/login", "POST", params);
+
+                            //Toast.makeText(getApplicationContext(), obj.toString(), Toast.LENGTH_LONG).show();
+
+                            Cursor c = db.getSettingById(fb_id);
+                            if(!c.moveToFirst()) {
+                                db.addSetting(fb_id);
+                                Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
+                                intent.putExtra("fb_id", fb_id);
+                                intent.putExtra("guide_id", "");
                                 intent.putExtra("name", name);
                                 intent.putExtra("bday", bday);
                                 intent.putExtra("gender", gender);
                                 intent.putExtra("age", age);
                                 intent.putExtra("image", image);
+                                intent.putExtra("default", 1);
                                 MainActivity.this.startActivity(intent);
                                 //MainActivity.this.finish();
-                                pd.dismiss();
-//                            }
-//                            else{
-//                                if(user.type.equals("traveler")){
-//                                    Intent intent = new Intent(MainActivity.this, LoggedInTraveler.class);
-//                                    intent.putExtra("name", user.name);
-//                                    intent.putExtra("bday", user.bday);
-//                                    intent.putExtra("gender", user.gender);
-//                                    intent.putExtra("age", user.age);
-//                                    intent.putExtra("image", user.image);
-//                                    MainActivity.this.startActivity(intent);
-//                                    //MainActivity.this.finish();
-//                                    pd.dismiss();
-//                                }
-//                                else{
-//                                    Intent intent = new Intent(MainActivity.this, LoggedInGuide.class);
-//                                    intent.putExtra("name", user.name);
-//                                    intent.putExtra("bday", user.bday);
-//                                    intent.putExtra("gender", user.gender);
-//                                    intent.putExtra("age", user.age);
-//                                    intent.putExtra("image", user.image);
-//                                    intent.putExtra("location", "Tawason Mandaue City");
-//                                    intent.putExtra("contact", "09232360984");
-//                                    intent.putExtra("email", "marvz_opo@yahoo.com");
-//                                    MainActivity.this.startActivity(intent);
-//                                    pd.dismiss();
-//                                }
-//                            }
+
+                            }
+                            else{
+                                //Toast.makeText(getApplicationContext(), String.valueOf(c.getInt(c.getColumnIndex("isTraveler"))), Toast.LENGTH_LONG).show();
+                               if(c.getInt(c.getColumnIndex("isTraveler")) == 1){
+                                   Intent intent = new Intent(getApplicationContext(), LoggedInTraveler.class);
+                                   intent.putExtra("fb_id", fb_id);
+                                   intent.putExtra("name", name);
+                                   intent.putExtra("bday", bday);
+                                   intent.putExtra("gender", gender);
+                                   intent.putExtra("age", age);
+                                   intent.putExtra("image", image);
+                                   MainActivity.this.startActivity(intent);
+                               }
+                               else {
+                                   String guide_id = obj.getString("guide_id");
+                                   //Toast.makeText(getApplicationContext(), obj.toString(), Toast.LENGTH_LONG).show();
+
+                                   if(guide_id.equals("")){
+                                       Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
+                                       intent.putExtra("fb_id", fb_id);
+                                       intent.putExtra("guide_id", guide_id);
+                                       intent.putExtra("name", name);
+                                       intent.putExtra("bday", bday);
+                                       intent.putExtra("gender", gender);
+                                       intent.putExtra("age", age);
+                                       intent.putExtra("image", image);
+                                       intent.putExtra("default", 0);
+                                       MainActivity.this.startActivity(intent);
+                                   }
+                                   else{
+                                       JSONObject guide = parser.makeHttpRequest("http://10.0.0.13:8080/api/v1/guide/" + guide_id, "GET", null);
+                                       //Toast.makeText(getApplicationContext(), "Naa ta diri "+guide_id, Toast.LENGTH_LONG).show();
+
+                                       String contact = guide.getString("contact_number");
+                                       String email = guide.getString("email_address");
+                                       String location = guide.getString("city")+", "+
+                                               guide.getString("country");
+
+                                       //parser.makeHttpRequest("http://10.0.0.13:8080/api/v1/guide", "POST", params);
+
+                                       Intent intent = new Intent(getApplicationContext(), LoggedInGuide.class);
+                                       intent.putExtra("fb_id", fb_id);
+                                       intent.putExtra("name", name);
+                                       intent.putExtra("bday", bday);
+                                       intent.putExtra("gender", gender);
+                                       intent.putExtra("age", age);
+                                       intent.putExtra("image", image);
+                                       intent.putExtra("location", location);
+                                       intent.putExtra("contact", contact);
+                                       intent.putExtra("email", email);
+                                       intent.putExtra("guide_id", guide_id);
+                                       MainActivity.this.startActivity(intent);
+                                   }
+                               }
+                            }
+
+                            pd.dismiss();
+
                         } catch (JSONException e) {
-                            e.printStackTrace();
+                            //e.printStackTrace();
+                            Toast.makeText(getApplicationContext(),"Wala "+e.toString(),Toast.LENGTH_LONG).show();
+                            pd.dismiss();
                         }
                     }
                 });
         Bundle parameters = new Bundle();
-        parameters.putString("fields", "picture,name,birthday,gender,age_range");
+        parameters.putString("fields", "id,picture,name,birthday,gender,age_range");
         request.setParameters(parameters);
         request.executeAsync();
     }

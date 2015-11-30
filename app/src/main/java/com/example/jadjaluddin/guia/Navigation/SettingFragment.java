@@ -24,6 +24,7 @@ public class SettingFragment extends Fragment implements CompoundButton.OnChecke
 
     Switch alert, reminder, isTraveler;
     DBHelper db = null;
+    String fb_id;
 
     @Nullable
     @Override
@@ -40,7 +41,14 @@ public class SettingFragment extends Fragment implements CompoundButton.OnChecke
         reminder = (Switch) view.findViewById(R.id.reminder_switch);
         isTraveler = (Switch) view.findViewById(R.id.type_switch);
 
-        Cursor c = db.getSetting();
+        try {
+            if (!LoggedInGuide.fb_id.equals("")) fb_id = LoggedInGuide.fb_id;
+        }catch(Exception e){
+            if (!LoggedInTraveler.fb_id.equals("")) fb_id = LoggedInTraveler.fb_id;
+        }
+
+        //Toast.makeText(getActivity().getApplicationContext(), fb_id, Toast.LENGTH_LONG).show();
+        Cursor c = db.getSettingById(fb_id);
         if(c.moveToFirst()){
             //Toast.makeText(getActivity().getApplication(), "Nisud man ngarii", Toast.LENGTH_LONG).show();
             if(c.getInt(c.getColumnIndex("alert")) == 0) alert.setChecked(false);
@@ -72,8 +80,8 @@ public class SettingFragment extends Fragment implements CompoundButton.OnChecke
             case R.id.type_switch: column = "isTraveler";
         }
 
-        if (isChecked) db.updSetting(1, column);
-        else db.updSetting(0, column);
+        if (isChecked) db.updSetting(fb_id, 1, column);
+        else db.updSetting(fb_id, 0, column);
 
         if(column.equals("isTraveler") && isChecked){
             Toast.makeText(getActivity().getApplicationContext(), "traveler type", Toast.LENGTH_LONG).show();

@@ -45,7 +45,7 @@ public class LoggedInTraveler extends AppCompatActivity {
                 R.drawable.messages,
                 R.drawable.settings,
                 R.drawable.logout};
-    static String name, bday, gender, age, image;
+    public static String name, bday, gender, age, image, fb_id;
     FragmentTransaction ft;
     HomeFragment hf = new HomeFragment();
     TripFragment tf = new TripFragment();
@@ -62,6 +62,7 @@ public class LoggedInTraveler extends AppCompatActivity {
 
         try{
             Bundle b = this.getIntent().getExtras();
+            fb_id = b.getString("fb_id");
             name = b.getString("name");
             bday = b.getString("bday");
             gender = b.getString("gender");

@@ -43,7 +43,7 @@ public class LoggedInGuide extends AppCompatActivity {
                 R.drawable.messages,
                 R.drawable.settings,
                 R.drawable.logout};
-    static String name, bday, gender, age, image, location, contact, email;
+    public static String name, bday, gender, age, image, location, contact, email, guide_id, fb_id;
     FragmentTransaction ft;
     HomeFragment hf = new HomeFragment();
     TripFragment tf = new TripFragment();
@@ -52,6 +52,7 @@ public class LoggedInGuide extends AppCompatActivity {
     FilterFragment ff = new FilterFragment();
     GuideProfileFragment gpf = new GuideProfileFragment();
     GuideCalendarFragment gcf = new GuideCalendarFragment();
+    AddItineraryFragment aif = new AddItineraryFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +61,7 @@ public class LoggedInGuide extends AppCompatActivity {
 
         try{
             Bundle b = this.getIntent().getExtras();
+            fb_id = b.getString("fb_id");
             name = b.getString("name");
             bday = b.getString("bday");
             gender = b.getString("gender");
@@ -68,6 +70,7 @@ public class LoggedInGuide extends AppCompatActivity {
             location = b.getString("location");
             contact = b.getString("contact");
             email = b.getString("email");
+            guide_id = b.getString("guide_id");
         }
         catch(Exception e){}
 
@@ -128,6 +131,7 @@ public class LoggedInGuide extends AppCompatActivity {
                         break;
                     case 5:
                         MainActivity.manager.logOut();
+                        LoggedInGuide.mToolbar = null;
                         LoggedInGuide.this.finish();
                 }
             }
@@ -184,6 +188,12 @@ public class LoggedInGuide extends AppCompatActivity {
                 addedFrag = true;
                 ft = getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.drawer_fragment_container, gcf).addToBackStack(null).commit();
+                break;
+            case R.id.add_trip:
+                mToolbar.setTitle("Create Itinerary");
+                addedFrag = true;
+                ft = getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.drawer_fragment_container, aif).addToBackStack(null).commit();
                 break;
             case R.id.done:
                 addedFrag = false;

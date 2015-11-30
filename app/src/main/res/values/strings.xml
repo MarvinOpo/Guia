@@ -6,6 +6,12 @@
     <string name="drawer_close">Close</string>
     <string name="action_settings">Settings</string>
 
+    <array name="time_format">
+        <item>Hour/s</item>
+        <item>Day/s</item>
+        <item>Week/s</item>
+    </array>
+
     <array name="months">
         <item>January</item>
         <item>February</item>

@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.jadjaluddin.guia.Guide.LoggedInGuide;
+import com.example.jadjaluddin.guia.Helper.DBHelper;
 import com.example.jadjaluddin.guia.Model.PopularDestinations;
 import com.example.jadjaluddin.guia.R;
 import com.example.jadjaluddin.guia.Helper.RVadapter;
@@ -25,16 +26,11 @@ import java.util.ArrayList;
 public class HomeFragment extends Fragment {
 
     ArrayList<PopularDestinations> mList = new ArrayList<PopularDestinations>();
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        try {
-            LoggedInGuide.mToolbar.setTitle("Popular Destination");
-        }catch (Exception e){
-            LoggedInTraveler.mToolbar.setTitle("Popular Destination");
-        }
+
         mList.clear();
         mList.add(new PopularDestinations(R.drawable.image1, "SANOVA BEACH", "A place where jerks used to hang out"));
         mList.add(new PopularDestinations(R.drawable.image2, "YUARA POOL", "A paradise for all stupid person"));
@@ -43,7 +39,13 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.filter, menu);
+
+        try {
+            LoggedInGuide.mToolbar.setTitle("Popular Destination");
+        }catch (Exception e) {
+            LoggedInTraveler.mToolbar.setTitle("Popular Destination");
+            inflater.inflate(R.menu.filter, menu);
+        }
     }
 
     @Nullable

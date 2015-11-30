@@ -27,14 +27,15 @@
         android:layout_height="match_parent"
         android:padding="25dp">
 
-        <EditText
-            android:id="@+id/txtLocation"
+        <Spinner
+            android:id="@+id/spnrLocation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:hint="Location"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:background="@drawable/rounded_edittext" />
+            android:background="@drawable/rounded_edittext"
+            />
 
         <EditText
             android:id="@+id/txtContact"
@@ -44,6 +45,19 @@
             android:hint="Contact number"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:background="@drawable/rounded_edittext"
+            android:inputType="number"
+            android:maxLines="1"
+            android:layout_marginTop="10dp"/>
+
+        <EditText
+            android:id="@+id/txtEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:hint="Email Address"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:background="@drawable/rounded_edittext"
+            android:maxLines="1"
             android:layout_marginTop="10dp"/>
 
         <TextView

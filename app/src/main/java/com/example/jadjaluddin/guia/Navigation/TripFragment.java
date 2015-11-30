@@ -42,12 +42,13 @@ public class TripFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
 
+        inflater.inflate(R.menu.add_tour, menu);
+
         try{
             LoggedInGuide.mToolbar.setTitle("Scheduled Tour");
 
         }catch (Exception e){
             LoggedInTraveler.mToolbar.setTitle("Scheduled Tour");
-            inflater.inflate(R.menu.add_trip, menu);
         }
     }
 
