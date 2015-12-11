@@ -52,7 +52,7 @@ public class LoggedInGuide extends AppCompatActivity {
     FilterFragment ff = new FilterFragment();
     GuideProfileFragment gpf = new GuideProfileFragment();
     GuideCalendarFragment gcf = new GuideCalendarFragment();
-    AddItineraryFragment aif = new AddItineraryFragment();
+    CreateTourFragment aif = new CreateTourFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -190,7 +190,7 @@ public class LoggedInGuide extends AppCompatActivity {
                 ft.replace(R.id.drawer_fragment_container, gcf).addToBackStack(null).commit();
                 break;
             case R.id.add_trip:
-                mToolbar.setTitle("Create Itinerary");
+                mToolbar.setTitle("Create Tour");
                 addedFrag = true;
                 ft = getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.drawer_fragment_container, aif).addToBackStack(null).commit();

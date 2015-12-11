@@ -51,14 +51,12 @@ public class GuideAddInfoFragment extends Fragment {
         btnBack = (Button) view.findViewById(R.id.guide1_back);
 
         JSONParser parser = new JSONParser();
-        JSONArray jArray = parser.getJSONFromUrl("http://10.0.0.13:8080/api/v1/locations");
-        //Toast.makeText(getActivity().getApplicationContext(), jArray.toString(), Toast.LENGTH_LONG).show();
+        JSONArray jArray = parser.getJSONFromUrl("http://guia.herokuapp.com/api/v1/locations");
         String[] location_list = new String[jArray.length()];
 
         try {
             for(int i = 0; i<jArray.length(); i++){
                 JSONObject obj = jArray.getJSONObject(i);
-                //Toast.makeText(getActivity().getApplicationContext(), obj.toString(), Toast.LENGTH_SHORT).show();
                 location_list[i] = obj.getString("city") + ", " + obj.getString("country");
             }
         }catch (JSONException e) {
@@ -73,7 +71,6 @@ public class GuideAddInfoFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 location = spnrLocation.getSelectedItem().toString();
-                //location = "Cebu, Philippines";
                 contact = txtContact.getText().toString();
                 email = txtEmail.getText().toString();
 
@@ -91,7 +88,7 @@ public class GuideAddInfoFragment extends Fragment {
                     params.add(new BasicNameValuePair("type", "Arts"));
 
                     JSONParser parser = new JSONParser();
-                    JSONObject obj = parser.makeHttpRequest("http://10.0.0.13:8080/api/v1/guide", "POST", params);
+                    JSONObject obj = parser.makeHttpRequest("http://guia.herokuapp.com/api/v1/guide", "POST", params);
 
                     Intent intent = new Intent(getActivity().getApplicationContext(), LoggedInGuide.class);
                     intent.putExtra("fb_id", RegisterActivity.fb_id);

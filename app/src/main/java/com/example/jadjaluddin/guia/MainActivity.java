@@ -121,24 +121,23 @@ public class MainActivity extends AppCompatActivity {
                             params.add(new BasicNameValuePair("profImage", image));
 
                             JSONParser parser = new JSONParser();
-                            JSONObject obj = parser.makeHttpRequest("http://10.0.0.13:8080/api/v1/login", "POST", params);
+                            JSONObject obj = parser.makeHttpRequest("http://guia.herokuapp.com/api/v1/login", "POST", params);
 
-                            //Toast.makeText(getApplicationContext(), obj.toString(), Toast.LENGTH_LONG).show();
+                            String guide_id = obj.getString("guide_id");
 
                             Cursor c = db.getSettingById(fb_id);
                             if(!c.moveToFirst()) {
                                 db.addSetting(fb_id);
                                 Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
                                 intent.putExtra("fb_id", fb_id);
-                                intent.putExtra("guide_id", "");
                                 intent.putExtra("name", name);
                                 intent.putExtra("bday", bday);
                                 intent.putExtra("gender", gender);
                                 intent.putExtra("age", age);
                                 intent.putExtra("image", image);
                                 intent.putExtra("default", 1);
+                                intent.putExtra("guide_id", guide_id);
                                 MainActivity.this.startActivity(intent);
-                                //MainActivity.this.finish();
 
                             }
                             else{
@@ -154,7 +153,6 @@ public class MainActivity extends AppCompatActivity {
                                    MainActivity.this.startActivity(intent);
                                }
                                else {
-                                   String guide_id = obj.getString("guide_id");
                                    //Toast.makeText(getApplicationContext(), obj.toString(), Toast.LENGTH_LONG).show();
 
                                    if(guide_id.equals("")){
@@ -170,15 +168,13 @@ public class MainActivity extends AppCompatActivity {
                                        MainActivity.this.startActivity(intent);
                                    }
                                    else{
-                                       JSONObject guide = parser.makeHttpRequest("http://10.0.0.13:8080/api/v1/guide/" + guide_id, "GET", null);
+                                       JSONObject guide = parser.makeHttpRequest("http://guia.herokuapp.com/api/v1/guide/" + guide_id, "GET", null);
                                        //Toast.makeText(getApplicationContext(), "Naa ta diri "+guide_id, Toast.LENGTH_LONG).show();
 
                                        String contact = guide.getString("contact_number");
                                        String email = guide.getString("email_address");
                                        String location = guide.getString("city")+", "+
                                                guide.getString("country");
-
-                                       //parser.makeHttpRequest("http://10.0.0.13:8080/api/v1/guide", "POST", params);
 
                                        Intent intent = new Intent(getApplicationContext(), LoggedInGuide.class);
                                        intent.putExtra("fb_id", fb_id);
@@ -196,13 +192,12 @@ public class MainActivity extends AppCompatActivity {
                                }
                             }
 
-                            pd.dismiss();
-
                         } catch (JSONException e) {
                             //e.printStackTrace();
                             Toast.makeText(getApplicationContext(),"Wala "+e.toString(),Toast.LENGTH_LONG).show();
-                            pd.dismiss();
                         }
+                        pd.dismiss();
+                        MainActivity.this.finish();
                     }
                 });
         Bundle parameters = new Bundle();
