@@ -20,14 +20,14 @@ public class FragmentNewTravel extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_new_travel, container, false);
+        View view = inflater.inflate(R.layout.fragment_new_trip, container, false);
 
         btnNext = (Button) view.findViewById(R.id.new_travel_next);
 
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentChooseGuide fcg = new FragmentChooseGuide();
+                FragmentBookingRequest fcg = new FragmentBookingRequest();
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.drawer_fragment_container, fcg).addToBackStack(null).commit();
             }

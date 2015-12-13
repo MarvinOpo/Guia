@@ -123,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
                             JSONParser parser = new JSONParser();
                             JSONObject obj = parser.makeHttpRequest("http://guia.herokuapp.com/api/v1/login", "POST", params);
 
+                            String user_id = obj.getString("_id");
                             String guide_id = obj.getString("guide_id");
 
                             Cursor c = db.getSettingById(fb_id);
@@ -137,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
                                 intent.putExtra("image", image);
                                 intent.putExtra("default", 1);
                                 intent.putExtra("guide_id", guide_id);
+                                intent.putExtra("user_id", user_id);
                                 MainActivity.this.startActivity(intent);
 
                             }
@@ -150,6 +152,7 @@ public class MainActivity extends AppCompatActivity {
                                    intent.putExtra("gender", gender);
                                    intent.putExtra("age", age);
                                    intent.putExtra("image", image);
+                                   intent.putExtra("user_id", user_id);
                                    MainActivity.this.startActivity(intent);
                                }
                                else {
@@ -165,6 +168,7 @@ public class MainActivity extends AppCompatActivity {
                                        intent.putExtra("age", age);
                                        intent.putExtra("image", image);
                                        intent.putExtra("default", 0);
+                                       intent.putExtra("user_id", user_id);
                                        MainActivity.this.startActivity(intent);
                                    }
                                    else{
@@ -197,7 +201,7 @@ public class MainActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(),"Wala "+e.toString(),Toast.LENGTH_LONG).show();
                         }
                         pd.dismiss();
-                        MainActivity.this.finish();
+                        //MainActivity.this.finish();
                     }
                 });
         Bundle parameters = new Bundle();

@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.jadjaluddin.guia.Guide.GuideAddInfoFragment;
 import com.example.jadjaluddin.guia.Guide.LoggedInGuide;
@@ -51,6 +52,7 @@ public class RegisterFragment extends Fragment {
                 intent.putExtra("gender", RegisterActivity.gender);
                 intent.putExtra("age", RegisterActivity.age);
                 intent.putExtra("image", RegisterActivity.image);
+                intent.putExtra("user_id", RegisterActivity.user_id);
                 getActivity().startActivity(intent);
                 getActivity().finish();
             }
@@ -68,7 +70,7 @@ public class RegisterFragment extends Fragment {
                         JSONParser parser = new JSONParser();
                         JSONObject guide = parser.makeHttpRequest("http://guia.herokuapp.com/api/v1/guide/" +
                                 RegisterActivity.guide_id, "GET", null);
-                        //Toast.makeText(getApplicationContext(), "Naa ta diri "+guide_id, Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity().getApplicationContext(), "Naa ta diri " + RegisterActivity.guide_id, Toast.LENGTH_LONG).show();
 
                         String contact = guide.getString("contact_number");
                         String email = guide.getString("email_address");

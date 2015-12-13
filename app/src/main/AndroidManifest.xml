@@ -30,7 +30,7 @@
                 "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:label="@string/app_name" />
-        <meta-data android:name="CLOUDINARY_URL" android:value="cloudinary://217349212466438:c5rgtq0cHlHDJozRLc9SPqb4p-k@dcg7peyqr"/>
+        <meta-data android:name="CLOUDINARY_URL" android:value="cloudinary://979931267823771:2_Gm-d7uOhBLtWEjkX6PejJ7UlA@guia"/>
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/app_id"/>
         <provider android:authorities="com.facebook.app.FacebookContentProvider1483123142002226"
         android:name="com.facebook.FacebookContentProvider"

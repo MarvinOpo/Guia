@@ -30,6 +30,14 @@ public class TripFragment extends Fragment {
                              Bundle savedInstanceState) {
         mTabHost = new FragmentTabHost(getActivity());
         mTabHost.setup(getActivity(), getChildFragmentManager(), R.id.tabframe);
+        try{
+            LoggedInGuide.mToolbar.setTitle("Scheduled Tour");
+
+            mTabHost.addTab(mTabHost.newTabSpec("pending").setIndicator("Pending"),
+                    PendingFragment.class, null);
+        }catch (Exception e){
+            LoggedInTraveler.mToolbar.setTitle("Scheduled Tour");
+        }
 
         mTabHost.addTab(mTabHost.newTabSpec("upcoming").setIndicator("Upcoming"),
                 UpcomingFragment.class, null);
@@ -41,15 +49,7 @@ public class TripFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-
         inflater.inflate(R.menu.add_tour, menu);
-
-        try{
-            LoggedInGuide.mToolbar.setTitle("Scheduled Tour");
-
-        }catch (Exception e){
-            LoggedInTraveler.mToolbar.setTitle("Scheduled Tour");
-        }
     }
 
     @Override

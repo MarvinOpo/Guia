@@ -11,7 +11,7 @@ import com.example.jadjaluddin.guia.Guide.GuideAddInfoFragment;
  * Created by jadjaluddin on 8/12/2015.
  */
 public class RegisterActivity extends AppCompatActivity {
-    public static String fb_id, guide_id, name, bday, gender, age, image;
+    public static String fb_id, guide_id, user_id, name, bday, gender, age, image;
     public static int def;
     FragmentTransaction ft;
 
@@ -27,6 +27,7 @@ public class RegisterActivity extends AppCompatActivity {
             Bundle b = this.getIntent().getExtras();
             fb_id = b.getString("fb_id");
             guide_id = b.getString("guide_id");
+            user_id = b.getString("user_id");
             name = b.getString("name");
             bday = b.getString("bday");
             gender = b.getString("gender");

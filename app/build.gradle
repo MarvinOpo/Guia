@@ -33,5 +33,4 @@ dependencies {
     compile 'com.prolificinteractive:material-calendarview:0.7.0'
     compile 'com.facebook.android:facebook-android-sdk:4.1.0'
     compile 'com.cloudinary:cloudinary-android:1.2.2'
-    compile 'com.github.tibolte:elasticdownload:1.0.+'
 }

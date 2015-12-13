@@ -98,19 +98,17 @@ public class JSONParser {
 
     }
 
-    public JSONArray getJSONFromUrl(String url) {
+    public JSONArray makeRequestArray(String url, String method, List<NameValuePair> params) {
 
         JSONObject json = null;
         String str = "";
         HttpResponse response;
         HttpClient myClient = new DefaultHttpClient();
-        HttpGet myConnection = new HttpGet(url);
-
+        HttpPost myConnection = new HttpPost(url);
         try {
+            myConnection.setEntity(new UrlEncodedFormEntity(params));
             response = myClient.execute(myConnection);
-
             Log.e("Response: ", response.toString());
-
             str = EntityUtils.toString(response.getEntity(), "UTF-8");
 
             Log.e("Response: ", str.toString());
@@ -129,5 +127,78 @@ public class JSONParser {
         }
 
         return jArray;
+
+    }
+
+    public JSONArray getJSONFromUrl(String url) {
+
+        JSONObject json = null;
+        String str = "";
+        HttpResponse response;
+        HttpClient myClient = new DefaultHttpClient();
+        HttpGet myConnection = new HttpGet(url);
+
+        try {
+            response = myClient.execute(myConnection);
+            str = EntityUtils.toString(response.getEntity(), "UTF-8");
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        JSONArray jArray = null;
+
+        try{
+            jArray = new JSONArray(str);
+        } catch ( JSONException e) {
+            e.printStackTrace();
+        }
+        return jArray;
+    }
+
+    public JSONObject getJSONObjectFromUrl(String url) {
+        // Making HTTP request
+        try {
+            // defaultHttpClient
+            DefaultHttpClient httpClient = new DefaultHttpClient();
+            HttpGet httpGet = new HttpGet(url);
+
+            HttpResponse httpResponse = httpClient.execute(httpGet);
+            HttpEntity httpEntity = httpResponse.getEntity();
+            is = httpEntity.getContent();
+
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(
+                    is, "iso-8859-1"), 8);
+            StringBuilder sb = new StringBuilder();
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line + "\n");
+            }
+            is.close();
+            json = sb.toString();
+        } catch (Exception e) {
+            Log.e("Buffer Error", "Error converting result " + e.toString());
+        }
+
+        // try parse the string to a JSON object
+        try {
+            jObj = new JSONObject(json);
+        } catch (JSONException e) {
+            Log.e("JSON Parser", "Error parsing data " + e.toString());
+        }
+
+        // return JSON String
+        return jObj;
+
     }
 }

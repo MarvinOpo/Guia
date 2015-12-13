@@ -78,7 +78,7 @@ public class GuideAddInfoFragment extends Fragment {
                 else if (email.equals("")) txtEmail.setError("Required!");
                 else {
                     DBHelper db = new DBHelper(getActivity().getApplicationContext());
-                    db.updSetting(RegisterActivity.fb_id, 0,"isTraveler");
+                    db.updSetting(RegisterActivity.fb_id, 0, "isTraveler");
 
                     List<NameValuePair> params = new ArrayList<>();
                     params.add(new BasicNameValuePair("city", "Cebu"));
@@ -86,6 +86,7 @@ public class GuideAddInfoFragment extends Fragment {
                     params.add(new BasicNameValuePair("contact_number", contact));
                     params.add(new BasicNameValuePair("email_address", email));
                     params.add(new BasicNameValuePair("type", "Arts"));
+                    params.add(new BasicNameValuePair("guide_user_id", RegisterActivity.user_id));
 
                     JSONParser parser = new JSONParser();
                     JSONObject obj = parser.makeHttpRequest("http://guia.herokuapp.com/api/v1/guide", "POST", params);

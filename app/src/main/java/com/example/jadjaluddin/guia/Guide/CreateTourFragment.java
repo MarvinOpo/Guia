@@ -63,7 +63,7 @@ public class CreateTourFragment extends Fragment implements View.OnClickListener
         main_image = (ImageView) view.findViewById(R.id.itinerary_image);
         add_image = (ImageView) view.findViewById(R.id.itinerary_add_image);
         title = (EditText) view.findViewById(R.id.itinerary_title);
-        description = (EditText) view.findViewById(R.id.itinerary_title);
+        description = (EditText) view.findViewById(R.id.itinerary_desc);
         btnNext = (Button) view.findViewById(R.id.itinerary_btnNext);
 
         main_image.setOnClickListener(this);
@@ -104,7 +104,7 @@ public class CreateTourFragment extends Fragment implements View.OnClickListener
                 } else {
                     if(new ConnectionChecker(getActivity().getApplicationContext()).isConnectedToInternet()){
                         Cloudinary cloudinary = new Cloudinary(Utils.cloudinaryUrlFromContext(getActivity().getApplicationContext()));
-                        try
+                        try{
                             File file = new File(getRealPathFromURI(main_imageUri));
                             Map uploadResult = cloudinary.uploader().upload(file, ObjectUtils.emptyMap());
                             String image = uploadResult.get("url").toString();
@@ -116,9 +116,10 @@ public class CreateTourFragment extends Fragment implements View.OnClickListener
                             params.add(new BasicNameValuePair("duration_format", "hours"));
                             params.add(new BasicNameValuePair("details", description.getText().toString()));
                             params.add(new BasicNameValuePair("tour_preference", "Arts"));
+                            params.add(new BasicNameValuePair("tour_location", "Cebu, Philippines"));
                             params.add(new BasicNameValuePair("tour_guide_id", LoggedInGuide.guide_id));
                             params.add(new BasicNameValuePair("rate", price.getText().toString()));
-                            params.add(new BasicNameValuePair("main_image", "http://res.cloudinary.com/dcg7peyqr/image/upload/v1449322925/qwnjywk8qd4e2hahozjt.jpg"));
+                            params.add(new BasicNameValuePair("main_image", image));
 
                             //Toast.makeText(getActivity().getApplicationContext(), LoggedInGuide.guide_id, Toast.LENGTH_LONG).show();
                             JSONParser parser = new JSONParser();

@@ -16,7 +16,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.jadjaluddin.guia.Guide.GuideCalendarFragment;
-import com.example.jadjaluddin.guia.Guide.GuideProfileFragment;
 import com.example.jadjaluddin.guia.Helper.DrawerAdapter;
 import com.example.jadjaluddin.guia.Helper.ImageLoadTask;
 import com.example.jadjaluddin.guia.MainActivity;
@@ -34,7 +33,7 @@ import com.example.jadjaluddin.guia.R;
 public class LoggedInTraveler extends AppCompatActivity {
 
     public static boolean doubleBackToExitPressedOnce = false;
-    static boolean addedFrag = false;
+    public static boolean addedFrag = false;
     public static Toolbar mToolbar;
     DrawerLayout mDrawer;
     ListView mDrawerList;
@@ -45,7 +44,7 @@ public class LoggedInTraveler extends AppCompatActivity {
                 R.drawable.messages,
                 R.drawable.settings,
                 R.drawable.logout};
-    public static String name, bday, gender, age, image, fb_id;
+    public static String name, bday, gender, age, image, fb_id, user_id;
     FragmentTransaction ft;
     HomeFragment hf = new HomeFragment();
     TripFragment tf = new TripFragment();
@@ -53,7 +52,7 @@ public class LoggedInTraveler extends AppCompatActivity {
     MessageFragment mf = new MessageFragment();
     FilterFragment ff = new FilterFragment();
     GuideCalendarFragment gcf = new GuideCalendarFragment();
-    FragmentChooseGuide fcg = new FragmentChooseGuide();
+    FragmentBookingRequest fcg = new FragmentBookingRequest();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +67,7 @@ public class LoggedInTraveler extends AppCompatActivity {
             gender = b.getString("gender");
             age = b.getString("age");
             image = b.getString("image");
+            user_id = b.getString("user_id");
         }
         catch(Exception e){}
 
@@ -188,7 +188,7 @@ public class LoggedInTraveler extends AppCompatActivity {
                 mToolbar.setTitle("Schedules");
                 addedFrag = true;
                 ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.drawer_fragment_container, fcg).addToBackStack(null).commit();
+                //ft.replace(R.id.drawer_fragment_container, fcg).addToBackStack(null).commit();
                 break;
             case R.id.done:
                 addedFrag = false;
